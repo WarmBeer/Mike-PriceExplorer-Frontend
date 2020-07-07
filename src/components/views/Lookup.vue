@@ -20,6 +20,9 @@
 import LookupBar from "../LookupBar";
 import LookupTable from "../LookupTable";
 import ExportExcel from "@/components/ExportExcel";
+
+const API_URL = process.env.VUE_APP_API_URL || 'http://localhost';
+
 export default {
   name: 'Lookup',
   components: {ExportExcel, LookupTable, LookupBar},
@@ -37,7 +40,7 @@ export default {
   }),
   methods: {
     getData() {
-      fetch(`http://localhost:3010/price/${this.currency}?priceCurrency=${this.priceCurrency}&startDate=${this.startDate}`)
+      fetch(`${API_URL}/price/${this.currency}?priceCurrency=${this.priceCurrency}&startDate=${this.startDate}`)
         .then((res) => res.json())
         .then((res) => {
           this.response = res;
@@ -47,7 +50,7 @@ export default {
       const mimeType = 'text/csv;encoding:utf-8'
       const fileName = `${this.exchange}-${Date.now()}.csv`;
       let data = '';
-      fetch(`http://localhost:3010/price/${this.currency}?priceCurrency=${this.priceCurrency}&exchange=${this.exchange}&startDate=0&endDate=${Date.now()}`)
+      fetch(`${API_URL}/price/${this.currency}?priceCurrency=${this.priceCurrency}&exchange=${this.exchange}&startDate=0&endDate=${Date.now()}`)
               .then((res) => res.json())
               .then((res) => {
                 data = res.data;
